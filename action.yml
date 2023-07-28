@@ -1,5 +1,5 @@
 name: continuous-integration-action
-author: @jsalazar
+author: jsalazar
 description: Action for continuous integration
 on:
   workflow_dispatch:
