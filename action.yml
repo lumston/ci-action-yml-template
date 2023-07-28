@@ -2,7 +2,7 @@ name: continuous-integration-action
 author: jsalazar
 description: Action for continuous integration
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       #Runtime options
       RUNTIME_VERSION:
