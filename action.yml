@@ -1,6 +1,12 @@
 name: continuous-integration-action
 author: jsalazar
 description: Action for continuous integration
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  workflow_call:
+
+  workflow_dispatch:
 inputs:
   #Runtime options
   RUNTIME_VERSION:
