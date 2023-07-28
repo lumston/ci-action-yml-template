@@ -1,65 +1,68 @@
 name: continuous-integration-action
+author: @jsalazar
 description: Action for continuous integration
-inputs:
-  #Runtime options
-  RUNTIME_VERSION:
-    description: Runtime version
-    default: node
-    type: choice
-    options:
-      - 16
-      - 18
-  RUNTIME:
-    description: Runtime of the application
-    default: node
-    type: choice
-    options:
-      - node
+on:
+  workflow_dispatch:
+    inputs:
+      #Runtime options
+      RUNTIME_VERSION:
+        description: Runtime version
+        default: node
+        type: choice
+        options:
+          - 16
+          - 18
+      RUNTIME:
+        description: Runtime of the application
+        default: node
+        type: choice
+        options:
+          - node
 
-  #Testing options
-  COVERAGE_PATH:
-    description: Results coverage path
-    required: false
-    default: ./coverage/coverage-summary.json
-    type: string
-  #Sonarqube options
-  SONAR_LCOV_PATH:
-    description: Sonarqube coverage path
-    required: false
-    default: ./coverage/lcov.info
-  SONAR_PROJECT_NAME:
-    description: Sonarqube project name
-    required: true
-  
-  SONAR_HOST_URL:
-    description: Sonarqube host url
-    required: true
-  
-  SONARQUBE_TOKEN:
-    description: Sonarqube token
-    required: true
+      #Testing options
+      COVERAGE_PATH:
+        description: Results coverage path
+        required: false
+        default: ./coverage/coverage-summary.json
+        type: string
+      #Sonarqube options
+      SONAR_LCOV_PATH:
+        description: Sonarqube coverage path
+        required: false
+        default: ./coverage/lcov.info
+      SONAR_PROJECT_NAME:
+        description: Sonarqube project name
+        required: true
+      
+      SONAR_HOST_URL:
+        description: Sonarqube host url
+        required: true
+      
+      SONARQUBE_TOKEN:
+        description: Sonarqube token
+        required: true
 
-  
-  MIN_COVERAGE_VALUE:
-    description: Minimum coverage value
-    required: false
-    default: 95
-    type: integer
-  MIN_BUGS_VALUE:
-    description: Minimum bugs value
-    required: false
-    default: 0
-    type: integer
-  MIN_HOTSPOTS_VALUE:
-    description: Minimum hotspots value
-    required: false
-    default: 0
-    type: integer
-  MIN_EFFORT_VALUE:
-    description: Minimum effort value
-    required: false
-    default: 60
-    type: integer
+      
+      MIN_COVERAGE_VALUE:
+        description: Minimum coverage value
+        required: false
+        default: 95
+        type: integer
+      MIN_BUGS_VALUE:
+        description: Minimum bugs value
+        required: false
+        default: 0
+        type: integer
+      MIN_HOTSPOTS_VALUE:
+        description: Minimum hotspots value
+        required: false
+        default: 0
+        type: integer
+      MIN_EFFORT_VALUE:
+        description: Minimum effort value
+        required: false
+        default: 60
+        type: integer
 env:
   RUNTIME_VERSION: ${{ inputs.RUNTIME_VERSION }}
   RUNTIME: ${{ inputs.RUNTIME }}
