@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/lumston/ci-action-yml-template/compare/v1.0.7...v1.1.0) (2023-07-28)
+
+
+### Features
+
+* add to action workflocall and workflowdispatch ([95f3d75](https://github.com/lumston/ci-action-yml-template/commit/95f3d75f68599e9c990f3a2626d132ef7e2a5a05))
+
 ### [1.0.7](https://github.com/lumston/ci-action-yml-template/compare/v1.0.6...v1.0.7) (2023-07-28)
 
 
