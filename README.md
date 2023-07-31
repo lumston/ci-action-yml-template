@@ -53,12 +53,14 @@ jobs:
           MIN_COVERAGE_VALUE: 95
           MIN_BUGS_VALUE: 0
           MIN_HOTSPOTS_VALUE: 0
-          MIN_EFFORT_VALUE: 60
+          MIN_EFFORT_VALUE: 60+
+```
+
+## License    
 License
 This code is licensed under the MIT License.
 
-Contact
+## Contact
 For any questions or feedback, please contact the author:
-
 Name: jsalazar
 GitHub: jsalazar
