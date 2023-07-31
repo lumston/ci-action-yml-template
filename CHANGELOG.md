@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/lumston/ci-action-yml-template/compare/v1.1.4...v1.2.0) (2023-07-31)
+
+
+### Features
+
+* :zap: add readme file ([efe98f9](https://github.com/lumston/ci-action-yml-template/commit/efe98f9a194d5b5f161a18f92bfa23c6758fe41e))
+
+
+### Bug Fixes
+
+* :bug: change all env to inputs when is necesary ([475650a](https://github.com/lumston/ci-action-yml-template/commit/475650a82cdbb8b7cb2033d29e3026f9b1b78969))
+* :bug: delete default githubtoken and comment some descriptions ([394338b](https://github.com/lumston/ci-action-yml-template/commit/394338bf9611b1d42f42de68045ca372e8b17409))
+* add required variable shell ([3c3ea04](https://github.com/lumston/ci-action-yml-template/commit/3c3ea04590cc3a3e7ca27f8fa27fd9ade9f3ae5c))
+* make another try whit github.event ([4bfd794](https://github.com/lumston/ci-action-yml-template/commit/4bfd794c5b150edc1f2f8ecf1e5763af726fced1))
+* make some changes about the utilization of the inputs ([c8beea9](https://github.com/lumston/ci-action-yml-template/commit/c8beea99cbc816fce9ebf629b6ddadfb6ed77f89))
+
 ### [1.1.4](https://github.com/lumston/ci-action-yml-template/compare/v1.1.3...v1.1.4) (2023-07-31)
 
 
