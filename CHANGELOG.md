@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://github.com/lumston/ci-action-yml-template/compare/v1.1.2...v1.1.3) (2023-07-31)
+
+
+### Bug Fixes
+
+* :bug: add some quotes to echo ([936dc9b](https://github.com/lumston/ci-action-yml-template/commit/936dc9b3d270c1d9cb6726771d4eac83e76c376c))
+
 ### [1.1.2](https://github.com/lumston/ci-action-yml-template/compare/v1.1.1...v1.1.2) (2023-07-31)
 
 
