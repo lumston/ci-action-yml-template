@@ -27,10 +27,6 @@ inputs:
     default: ./coverage/coverage-summary.json
     type: string
   #Sonarqube options
-  SONAR_LCOV_PATH:
-    description: Sonarqube coverage path
-    required: false
-    default: ./coverage/lcov.info
   SONAR_PROJECT_NAME:
     description: Sonarqube project name
     required: true
@@ -40,6 +36,10 @@ inputs:
   SONARQUBE_TOKEN:
     description: Sonarqube token
     required: true
+  SONAR_LCOV_PATH:
+    description: Sonarqube coverage path
+    required: false
+    default: ./coverage/lcov.info
   MIN_COVERAGE_VALUE:
     description: Minimum coverage value
     required: false
@@ -156,7 +156,7 @@ runs:
         if [[ $result -eq 1 ]]; then
           echo "There are some bugs to review."
           echo "Number of bugs: " ${{ env.BUGS_VALUE }}
-          echo "Allowed bugs: " ${{ env.BUGS_VALUE }}
+          echo "Allowed bugs: " ${{ inputs.MIN_BUGS_VALUE }}
           exit 1
         else
           echo "Terrific! your bugs are ok"
@@ -167,7 +167,7 @@ runs:
         if [[ $result -eq 1 ]]; then
           echo "There are some hotspots to review."
           echo "Number of hotspots: " ${{ env.HOTSPOTS_VALUE }}
-          echo "Allowed hotspots: " ${{ env.MIN_HOTSPOTS_VALUE }}
+          echo "Allowed hotspots: " ${{ inputs.MIN_HOTSPOTS_VALUE }}
           exit 1
         else
           echo "Terrific! your hotspots are ok"
@@ -178,7 +178,7 @@ runs:
         if [[ $result -eq 1 ]]; then
           echo "The debt its greater than  maximum allowed."
           echo "Number of debt in minutes : " ${{ env.EFFORT_VALUE }}
-          echo "Allowed debt in minutes: " ${{ env.MIN_EFFORT_VALUE }}
+          echo "Allowed debt in minutes: " ${{ inputs.MIN_EFFORT_VALUE }}
           exit 1
         else
           echo "Terrific! your debt it's ok"
