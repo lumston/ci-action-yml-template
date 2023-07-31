@@ -1,8 +1,31 @@
-# continuous-integration-action
+# Continuous Integration Action
+
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/your-username/continuous-integration-action/CI?label=CI&logo=github&style=flat-square)
+![License](https://img.shields.io/github/license/your-username/continuous-integration-action?style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/your-username/continuous-integration-action?style=flat-square)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/your-username/continuous-integration-action?style=flat-square)
 
 An action for continuous integration.
 
+## Table of Contents
+
+- [Description](#description)
+- [Inputs](#inputs)
+  - [Runtime Options](#runtime-options)
+  - [Testing Options](#testing-options)
+  - [Sonarqube Options](#sonarqube-options)
+- [Environment Variables](#environment-variables)
+- [Usage](#usage)
+- [License](#license)
+- [Contact](#contact)
+
+## Description
+
+This GitHub Action automates continuous integration for your project. It runs tests, checks code coverage, and performs a Sonarqube analysis to ensure code quality.
+
 ## Inputs
+
+### Runtime Options
 
 - **GITHUB_TOKEN** (required): GitHub token to authenticate actions.
 - **RUNTIME_VERSION** (default: node): The version of the runtime used for the application. Available options: 16, 18.
@@ -40,7 +63,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Continuous Integration
-        uses: jsalazar/continuous-integration-action@v1
+        uses: your-username/continuous-integration-action@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUNTIME_VERSION: '16'
@@ -53,14 +76,12 @@ jobs:
           MIN_COVERAGE_VALUE: 95
           MIN_BUGS_VALUE: 0
           MIN_HOTSPOTS_VALUE: 0
-          MIN_EFFORT_VALUE: 60+
+          MIN_EFFORT_VALUE: 60
+
 ```
 
 ## License    
-License
 This code is licensed under the MIT License.
-
 ## Contact
 For any questions or feedback, please contact the author:
-Name: jsalazar
-GitHub: jsalazar
+Name: jsalazar@lumston.com
