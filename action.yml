@@ -79,7 +79,7 @@ runs:
   steps:
     - uses: actions/checkout@v3
     - name: make some tests
-      run: echo "${{env.INPUT_RUNTIME}}"
+      run: echo "${{ github.event.inputs.RUNTIME }}"
       shell: bash
     # - name: Setup Node.js
     #   uses: actions/setup-node@v3
