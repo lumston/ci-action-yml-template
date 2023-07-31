@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/lumston/ci-action-yml-template/compare/v1.1.0...v1.1.1) (2023-07-31)
+
+
+### Bug Fixes
+
+* :bug: change some secters to envs ([b66624f](https://github.com/lumston/ci-action-yml-template/commit/b66624fb5f288ae9145e31bb122b5276100ee407))
+
 ## [1.1.0](https://github.com/lumston/ci-action-yml-template/compare/v1.0.7...v1.1.0) (2023-07-28)
 
 
