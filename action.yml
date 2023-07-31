@@ -6,7 +6,6 @@ inputs:
   GITHUB_TOKEN:
     description: Github token
     required: true
-    default: ${{ secrets.GITHUB_TOKEN }}
   RUNTIME_VERSION:
     description: Runtime version
     default: node
@@ -21,13 +20,13 @@ inputs:
     options:
       - node
 
-  Testing options
+  #Testing options
   COVERAGE_PATH:
     description: Results coverage path
     required: false
     default: ./coverage/coverage-summary.json
     type: string
-  Sonarqube options
+  #Sonarqube options
   SONAR_LCOV_PATH:
     description: Sonarqube coverage path
     required: false
@@ -102,7 +101,7 @@ runs:
     - name: Monitor coverage
       uses: slavcodev/coverage-monitor-action@v1
       with:
-        github_token: ${{ inputs.GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+        github_token: ${{ inputs.GITHUB_TOKEN}}
         coverage_path: ${{  inputs.COVERAGE_PATH  }}
         threshold_alert: 80
         threshold_warning: ${{ inputs.MIN_COVERAGE_VALUE }}
