@@ -133,6 +133,7 @@ runs:
           echo "BUGS_VALUE=$bugs_vulnerability" >> $GITHUB_ENV
           echo "HOTSPOTS_VALUE=$hotspots" >> $GITHUB_ENV
           echo "EFFORT_VALUE=$effort_total" >> $GITHUB_ENV
+      shell: bash
     - uses: mshick/add-pr-comment@v2
       with:
           message: |
@@ -150,6 +151,7 @@ runs:
         else
           echo "Terrific! you coverage its over 95"
         fi
+      shell: bash
     - name: Check Bugs
       run: |
         result=$(awk -v n1="$BUGS_VALUE" -v n2="$MIN_BUGS_VALUE" 'BEGIN {print (n1 > n2)}')
@@ -161,6 +163,7 @@ runs:
         else
           echo "Terrific! your bugs are ok"
         fi
+      shell: bash
     - name: Check Hotspots
       run: |
         result=$(awk -v n1="$HOTSPOTS_VALUE" -v n2="$MIN_HOTSPOTS_VALUE" 'BEGIN {print (n1 > n2)}')
@@ -172,6 +175,7 @@ runs:
         else
           echo "Terrific! your hotspots are ok"
         fi
+      shell: bash
     - name: Check Techical debt
       run: |
         result=$(awk -v n1="$EFFORT_VALUE" -v n2="$MIN_EFFORT_VALUE" 'BEGIN {print (n1 > n2)}')
@@ -183,3 +187,4 @@ runs:
         else
           echo "Terrific! your debt it's ok"
         fi
+      shell: bash
