@@ -1,14 +1,12 @@
 name: continuous-integration-action
 author: jsalazar
 description: Action for continuous integration
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  workflow_call:
-
-  workflow_dispatch:
 inputs:
   #Runtime options
+  GITHUB_TOKEN:
+    description: Github token
+    required: true
+    default: ${{ secrets.GITHUB_TOKEN }}
   RUNTIME_VERSION:
     description: Runtime version
     default: node
@@ -37,16 +35,12 @@ inputs:
   SONAR_PROJECT_NAME:
     description: Sonarqube project name
     required: true
-  
   SONAR_HOST_URL:
     description: Sonarqube host url
     required: true
-  
   SONARQUBE_TOKEN:
     description: Sonarqube token
     required: true
-
-  
   MIN_COVERAGE_VALUE:
     description: Minimum coverage value
     required: false
@@ -80,10 +74,8 @@ env:
   EFFORT_VALUE: 0
 
 
-jobs:
-
-  build:
-    runs-on: ubuntu-latest
+runs:
+  using: composite
   steps:
     - uses: actions/checkout@v3
     - name: Setup Node.js
@@ -111,7 +103,7 @@ jobs:
     - name: Monitor coverage
       uses: slavcodev/coverage-monitor-action@v1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ env.GITHUB_TOKEN }}
         coverage_path: ${{  inputs.COVERAGE_PATH  }}
         threshold_alert: 80
         threshold_warning: ${{ inputs.MIN_COVERAGE_VALUE }}
@@ -133,10 +125,10 @@ jobs:
     - name: Get sonarqube coverage history
       run: |
           # execute curl command and get the output value using jq
-          coverage_value=$(curl -G --data-urlencode "component=${{secrets.SONAR_PROJECT_NAME}}" --data-urlencode "metrics=coverage" -s -u ${{ secrets.SONARQUBE_TOKEN }}: ${{ secrets.SONAR_HOST_URL }}/api/measures/search_history | jq -r '.measures[0].history[-1].value')
-          bugs_vulnerability=$(curl -G --data-urlencode "componentKeys=${{secrets.SONAR_PROJECT_NAME}}" --data-urlencode "types=BUG,VULNERABILITY" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ secrets.SONARQUBE_TOKEN }}: ${{ secrets.SONAR_HOST_URL }}/api/issues/search | jq -r '.total')
-          hotspots=$(curl -G --data-urlencode "projectKey=${{secrets.SONAR_PROJECT_NAME}}" -s -u ${{ secrets.SONARQUBE_TOKEN }}: ${{ secrets.SONAR_HOST_URL }}/api/hotspots/search | jq -r '.paging.total')
-          effort_total=$(curl -G --data-urlencode "componentKeys=${{secrets.SONAR_PROJECT_NAME}}" --data-urlencode "types=CODE_SMELL" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ secrets.SONARQUBE_TOKEN }}: ${{ secrets.SONAR_HOST_URL }}/api/issues/search | jq -r '.effortTotal')
+          coverage_value=$(curl -G --data-urlencode "component=${{env.SONAR_PROJECT_NAME}}" --data-urlencode "metrics=coverage" -s -u ${{ env.SONARQUBE_TOKEN }}: ${{ env.SONAR_HOST_URL }}/api/measures/search_history | jq -r '.measures[0].history[-1].value')
+          bugs_vulnerability=$(curl -G --data-urlencode "componentKeys=${{env.SONAR_PROJECT_NAME}}" --data-urlencode "types=BUG,VULNERABILITY" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ env.SONARQUBE_TOKEN }}: ${{ env.SONAR_HOST_URL }}/api/issues/search | jq -r '.total')
+          hotspots=$(curl -G --data-urlencode "projectKey=${{env.SONAR_PROJECT_NAME}}" -s -u ${{ env.SONARQUBE_TOKEN }}: ${{ env.SONAR_HOST_URL }}/api/hotspots/search | jq -r '.paging.total')
+          effort_total=$(curl -G --data-urlencode "componentKeys=${{env.SONAR_PROJECT_NAME}}" --data-urlencode "types=CODE_SMELL" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ env.SONARQUBE_TOKEN }}: ${{ env.SONAR_HOST_URL }}/api/issues/search | jq -r '.effortTotal')
           # print the coverage value
           echo "COVERAGE_VALUE=$coverage_value" >> $GITHUB_ENV
           echo "BUGS_VALUE=$bugs_vulnerability" >> $GITHUB_ENV
