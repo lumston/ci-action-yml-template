@@ -1,12 +1,3 @@
-# Continuous Integration Action
-
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/your-username/continuous-integration-action/CI?label=CI&logo=github&style=flat-square)
-![License](https://img.shields.io/github/license/your-username/continuous-integration-action?style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues/your-username/continuous-integration-action?style=flat-square)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/your-username/continuous-integration-action?style=flat-square)
-
-An action for continuous integration.
-
 ## Table of Contents
 
 - [Description](#description)
