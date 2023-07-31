@@ -1,6 +1,6 @@
 {
   "name": "ci-action-yml-template",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Repository for ci executions",
   "main": "index.js",
   "scripts": {
