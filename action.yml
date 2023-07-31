@@ -2,18 +2,18 @@ name: continuous-integration-action
 author: jsalazar
 description: Action for continuous integration
 inputs:
-  # #Runtime options
-  # GITHUB_TOKEN:
-  #   description: Github token
-  #   required: true
-  #   default: ${{ secrets.GITHUB_TOKEN }}
-  # RUNTIME_VERSION:
-  #   description: Runtime version
-  #   default: node
-  #   type: choice
-  #   options:
-  #     - 16
-  #     - 18
+  #Runtime options
+  GITHUB_TOKEN:
+    description: Github token
+    required: true
+    default: ${{ secrets.GITHUB_TOKEN }}
+  RUNTIME_VERSION:
+    description: Runtime version
+    default: node
+    type: choice
+    options:
+      - 16
+      - 18
   RUNTIME:
     description: Runtime of the application
     default: node
@@ -21,57 +21,51 @@ inputs:
     options:
       - node
 
-#   #Testing options
-#   COVERAGE_PATH:
-#     description: Results coverage path
-#     required: false
-#     default: ./coverage/coverage-summary.json
-#     type: string
-#   #Sonarqube options
-#   SONAR_LCOV_PATH:
-#     description: Sonarqube coverage path
-#     required: false
-#     default: ./coverage/lcov.info
-#   SONAR_PROJECT_NAME:
-#     description: Sonarqube project name
-#     required: true
-#   SONAR_HOST_URL:
-#     description: Sonarqube host url
-#     required: true
-#   SONARQUBE_TOKEN:
-#     description: Sonarqube token
-#     required: true
-#   MIN_COVERAGE_VALUE:
-#     description: Minimum coverage value
-#     required: false
-#     default: 95
-#     type: integer
-#   MIN_BUGS_VALUE:
-#     description: Minimum bugs value
-#     required: false
-#     default: 0
-#     type: integer
-#   MIN_HOTSPOTS_VALUE:
-#     description: Minimum hotspots value
-#     required: false
-#     default: 0
-#     type: integer
-#   MIN_EFFORT_VALUE:
-#     description: Minimum effort value
-#     required: false
-#     default: 60
-#     type: integer
-# env:
-#   RUNTIME_VERSION: ${{ inputs.RUNTIME_VERSION }}
-#   RUNTIME: ${{ inputs.RUNTIME }}
-#   MIN_COVERAGE_VALUE: ${{ inputs.MIN_COVERAGE_VALUE }}
-#   MIN_BUGS_VALUE: ${{ inputs.MIN_BUGS_VALUE }}
-#   MIN_HOTSPOTS_VALUE: ${{ inputs.MIN_HOTSPOTS_VALUE }}
-#   MIN_EFFORT_VALUE: ${{ inputs.MIN_EFFORT_VALUE }}
-#   COVERAGE_VALUE: 0
-#   BUGS_VALUE: 0
-#   HOTSPOTS_VALUE: 0
-#   EFFORT_VALUE: 0
+  Testing options
+  COVERAGE_PATH:
+    description: Results coverage path
+    required: false
+    default: ./coverage/coverage-summary.json
+    type: string
+  Sonarqube options
+  SONAR_LCOV_PATH:
+    description: Sonarqube coverage path
+    required: false
+    default: ./coverage/lcov.info
+  SONAR_PROJECT_NAME:
+    description: Sonarqube project name
+    required: true
+  SONAR_HOST_URL:
+    description: Sonarqube host url
+    required: true
+  SONARQUBE_TOKEN:
+    description: Sonarqube token
+    required: true
+  MIN_COVERAGE_VALUE:
+    description: Minimum coverage value
+    required: false
+    default: 95
+    type: integer
+  MIN_BUGS_VALUE:
+    description: Minimum bugs value
+    required: false
+    default: 0
+    type: integer
+  MIN_HOTSPOTS_VALUE:
+    description: Minimum hotspots value
+    required: false
+    default: 0
+    type: integer
+  MIN_EFFORT_VALUE:
+    description: Minimum effort value
+    required: false
+    default: 60
+    type: integer
+env:
+  COVERAGE_VALUE: 0
+  BUGS_VALUE: 0
+  HOTSPOTS_VALUE: 0
+  EFFORT_VALUE: 0
 
 
 runs:
@@ -81,112 +75,112 @@ runs:
     - name: make some tests
       run: echo ${{ inputs.RUNTIME }}
       shell: bash
-    # - name: Setup Node.js
-    #   uses: actions/setup-node@v3
-    #   with:
-    #     node-version: ${{ env.RUNTIME_VERSION }}
-    #     cache: npm
-    # - name: Install dependencies
-    #   run: npm ci
-    #   shell: bash
-    # - name: Run tests
-    #   run: npm run test:coverage
-    #   shell: bash
-    # # - name: Run lint
-    # #   run: npm run lint
-    # - name: Collect coverage
-    #   id: results
-    #   uses: MishaKav/jest-coverage-comment@main
-    #   with:
-    #     coverage-summary-path: ${{  inputs.COVERAGE_PATH  }}
-    #     title: Coverage results
-    #     summary-title: Coverage Summary Results
-    #     badge-title: Coverage
-    #     hide-comment: false
-    #     create-new-comment: false
-    #     hide-summary: false
-    # - name: Monitor coverage
-    #   uses: slavcodev/coverage-monitor-action@v1
-    #   with:
-    #     github_token: ${{ env.GITHUB_TOKEN }}
-    #     coverage_path: ${{  inputs.COVERAGE_PATH  }}
-    #     threshold_alert: 80
-    #     threshold_warning: ${{ inputs.MIN_COVERAGE_VALUE }}
-    #     threshold_metric: "statements"
-    #     comment_footer: false
-    # - name: Setup sonarqube
-    #   uses: warchant/setup-sonar-scanner@v5
-    # - name: Run sonarqube
-    #   run: sonar-scanner
-    #        -Dsonar.projectKey= ${{inputs.SONAR_PROJECT_NAME}}
-    #        -Dsonar.sourceEncoding=UTF-8
-    #        -Dsonar.sources=src/
-    #        -Dsonar.tests=src/
-    #        -Dsonar.test.inclusions=**/*.spec.ts
-    #        -Dsonar.typescript.lcov.reportPaths=${{ inputs.SONAR_LCOV_PATH }}
-    #        -Dsonar.projectName=${{inputs.SONAR_PROJECT_NAME}}
-    #        -Dsonar.host.url=${{ inputs.SONAR_HOST_URL }}
-    #        -Dsonar.login=${{ inputs.SONARQUBE_TOKEN }}
-    #   shell: bash
-    # - name: Get sonarqube coverage history
-    #   run: |
-    #       # execute curl command and get the output value using jq
-    #       coverage_value=$(curl -G --data-urlencode "component=${{env.SONAR_PROJECT_NAME}}" --data-urlencode "metrics=coverage" -s -u ${{ env.SONARQUBE_TOKEN }}: ${{ env.SONAR_HOST_URL }}/api/measures/search_history | jq -r '.measures[0].history[-1].value')
-    #       bugs_vulnerability=$(curl -G --data-urlencode "componentKeys=${{env.SONAR_PROJECT_NAME}}" --data-urlencode "types=BUG,VULNERABILITY" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ env.SONARQUBE_TOKEN }}: ${{ env.SONAR_HOST_URL }}/api/issues/search | jq -r '.total')
-    #       hotspots=$(curl -G --data-urlencode "projectKey=${{env.SONAR_PROJECT_NAME}}" -s -u ${{ env.SONARQUBE_TOKEN }}: ${{ env.SONAR_HOST_URL }}/api/hotspots/search | jq -r '.paging.total')
-    #       effort_total=$(curl -G --data-urlencode "componentKeys=${{env.SONAR_PROJECT_NAME}}" --data-urlencode "types=CODE_SMELL" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ env.SONARQUBE_TOKEN }}: ${{ env.SONAR_HOST_URL }}/api/issues/search | jq -r '.effortTotal')
-    #       # print the coverage value
-    #       echo "COVERAGE_VALUE=$coverage_value" >> $GITHUB_ENV
-    #       echo "BUGS_VALUE=$bugs_vulnerability" >> $GITHUB_ENV
-    #       echo "HOTSPOTS_VALUE=$hotspots" >> $GITHUB_ENV
-    #       echo "EFFORT_VALUE=$effort_total" >> $GITHUB_ENV
-    # - uses: mshick/add-pr-comment@v2
-    #   with:
-    #       message: |
-    #         🐺🐺 Resume of results  🐺🐺
-    #         📕Coverage: ${{ env.COVERAGE_VALUE }}
-    #         🐛Bugs: ${{ env.BUGS_VALUE }}
-    #         🚓Security Hotspots : ${{ env.HOTSPOTS_VALUE }}
-    #         💻Debt: ${{ env.EFFORT_VALUE }}
-    # - name: Check Coverage
-    #   run: | 
-    #     result=$(awk -v n1="$MIN_COVERAGE_VALUE" -v n2="$COVERAGE_VALUE" 'BEGIN {print (n1 > n2)}')
-    #     if [[ $result -eq 1 ]]; then
-    #       echo "The minimun coverage is "${{ env.MIN_COVERAGE_VALUE }}" and you coverage is "${{ env.COVERAGE_VALUE }}
-    #       exit 1
-    #     else
-    #       echo "Terrific! you coverage its over 95"
-    #     fi
-    # - name: Check Bugs
-    #   run: |
-    #     result=$(awk -v n1="$BUGS_VALUE" -v n2="$MIN_BUGS_VALUE" 'BEGIN {print (n1 > n2)}')
-    #     if [[ $result -eq 1 ]]; then
-    #       echo "There are some bugs to review."
-    #       echo "Number of bugs: " ${{ env.BUGS_VALUE }}
-    #       echo "Allowed bugs: " ${{ env.BUGS_VALUE }}
-    #       exit 1
-    #     else
-    #       echo "Terrific! your bugs are ok"
-    #     fi
-    # - name: Check Hotspots
-    #   run: |
-    #     result=$(awk -v n1="$HOTSPOTS_VALUE" -v n2="$MIN_HOTSPOTS_VALUE" 'BEGIN {print (n1 > n2)}')
-    #     if [[ $result -eq 1 ]]; then
-    #       echo "There are some hotspots to review."
-    #       echo "Number of hotspots: " ${{ env.HOTSPOTS_VALUE }}
-    #       echo "Allowed hotspots: " ${{ env.MIN_HOTSPOTS_VALUE }}
-    #       exit 1
-    #     else
-    #       echo "Terrific! your hotspots are ok"
-    #     fi
-    # - name: Check Techical debt
-    #   run: |
-    #     result=$(awk -v n1="$EFFORT_VALUE" -v n2="$MIN_EFFORT_VALUE" 'BEGIN {print (n1 > n2)}')
-    #     if [[ $result -eq 1 ]]; then
-    #       echo "The debt its greater than  maximum allowed."
-    #       echo "Number of debt in minutes : " ${{ env.EFFORT_VALUE }}
-    #       echo "Allowed debt in minutes: " ${{ env.MIN_EFFORT_VALUE }}
-    #       exit 1
-    #     else
-    #       echo "Terrific! your debt it's ok"
-    #     fi
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.RUNTIME_VERSION }}
+        cache: npm
+    - name: Install dependencies
+      run: npm ci
+      shell: bash
+    - name: Run tests
+      run: npm run test:coverage
+      shell: bash
+    # - name: Run lint
+    #   run: npm run lint
+    - name: Collect coverage
+      id: results
+      uses: MishaKav/jest-coverage-comment@main
+      with:
+        coverage-summary-path: ${{  inputs.COVERAGE_PATH  }}
+        title: Coverage results
+        summary-title: Coverage Summary Results
+        badge-title: Coverage
+        hide-comment: false
+        create-new-comment: false
+        hide-summary: false
+    - name: Monitor coverage
+      uses: slavcodev/coverage-monitor-action@v1
+      with:
+        github_token: ${{ inputs.GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+        coverage_path: ${{  inputs.COVERAGE_PATH  }}
+        threshold_alert: 80
+        threshold_warning: ${{ inputs.MIN_COVERAGE_VALUE }}
+        threshold_metric: "statements"
+        comment_footer: false
+    - name: Setup sonarqube
+      uses: warchant/setup-sonar-scanner@v5
+    - name: Run sonarqube
+      run: sonar-scanner
+           -Dsonar.projectKey= ${{inputs.SONAR_PROJECT_NAME}}
+           -Dsonar.sourceEncoding=UTF-8
+           -Dsonar.sources=src/
+           -Dsonar.tests=src/
+           -Dsonar.test.inclusions=**/*.spec.ts
+           -Dsonar.typescript.lcov.reportPaths=${{ inputs.SONAR_LCOV_PATH }}
+           -Dsonar.projectName=${{inputs.SONAR_PROJECT_NAME}}
+           -Dsonar.host.url=${{ inputs.SONAR_HOST_URL }}
+           -Dsonar.login=${{ inputs.SONARQUBE_TOKEN }}
+      shell: bash
+    - name: Get sonarqube coverage history
+      run: |
+          # execute curl command and get the output value using jq
+          coverage_value=$(curl -G --data-urlencode "component=${{inputs.SONAR_PROJECT_NAME}}" --data-urlencode "metrics=coverage" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/measures/search_history | jq -r '.measures[0].history[-1].value')
+          bugs_vulnerability=$(curl -G --data-urlencode "componentKeys=${{inputs.SONAR_PROJECT_NAME}}" --data-urlencode "types=BUG,VULNERABILITY" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/issues/search | jq -r '.total')
+          hotspots=$(curl -G --data-urlencode "projectKey=${{inputs.SONAR_PROJECT_NAME}}" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/hotspots/search | jq -r '.paging.total')
+          effort_total=$(curl -G --data-urlencode "componentKeys=${{inputs.SONAR_PROJECT_NAME}}" --data-urlencode "types=CODE_SMELL" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/issues/search | jq -r '.effortTotal')
+          # print the coverage value
+          echo "COVERAGE_VALUE=$coverage_value" >> $GITHUB_ENV
+          echo "BUGS_VALUE=$bugs_vulnerability" >> $GITHUB_ENV
+          echo "HOTSPOTS_VALUE=$hotspots" >> $GITHUB_ENV
+          echo "EFFORT_VALUE=$effort_total" >> $GITHUB_ENV
+    - uses: mshick/add-pr-comment@v2
+      with:
+          message: |
+            🐺🐺 Resume of results  🐺🐺
+            📕Coverage: ${{ env.COVERAGE_VALUE }}
+            🐛Bugs: ${{ env.BUGS_VALUE }}
+            🚓Security Hotspots : ${{ env.HOTSPOTS_VALUE }}
+            💻Debt: ${{ env.EFFORT_VALUE }}
+    - name: Check Coverage
+      run: | 
+        result=$(awk -v n1=${{inputs.MIN_COVERAGE_VALUE}} -v n2="$COVERAGE_VALUE" 'BEGIN {print (n1 > n2)}')
+        if [[ $result -eq 1 ]]; then
+          echo "The minimun coverage is "${{ inputs.MIN_COVERAGE_VALUE }}" and you coverage is "${{ env.COVERAGE_VALUE }}
+          exit 1
+        else
+          echo "Terrific! you coverage its over 95"
+        fi
+    - name: Check Bugs
+      run: |
+        result=$(awk -v n1="$BUGS_VALUE" -v n2="$MIN_BUGS_VALUE" 'BEGIN {print (n1 > n2)}')
+        if [[ $result -eq 1 ]]; then
+          echo "There are some bugs to review."
+          echo "Number of bugs: " ${{ env.BUGS_VALUE }}
+          echo "Allowed bugs: " ${{ env.BUGS_VALUE }}
+          exit 1
+        else
+          echo "Terrific! your bugs are ok"
+        fi
+    - name: Check Hotspots
+      run: |
+        result=$(awk -v n1="$HOTSPOTS_VALUE" -v n2="$MIN_HOTSPOTS_VALUE" 'BEGIN {print (n1 > n2)}')
+        if [[ $result -eq 1 ]]; then
+          echo "There are some hotspots to review."
+          echo "Number of hotspots: " ${{ env.HOTSPOTS_VALUE }}
+          echo "Allowed hotspots: " ${{ env.MIN_HOTSPOTS_VALUE }}
+          exit 1
+        else
+          echo "Terrific! your hotspots are ok"
+        fi
+    - name: Check Techical debt
+      run: |
+        result=$(awk -v n1="$EFFORT_VALUE" -v n2="$MIN_EFFORT_VALUE" 'BEGIN {print (n1 > n2)}')
+        if [[ $result -eq 1 ]]; then
+          echo "The debt its greater than  maximum allowed."
+          echo "Number of debt in minutes : " ${{ env.EFFORT_VALUE }}
+          echo "Allowed debt in minutes: " ${{ env.MIN_EFFORT_VALUE }}
+          exit 1
+        else
+          echo "Terrific! your debt it's ok"
+        fi
