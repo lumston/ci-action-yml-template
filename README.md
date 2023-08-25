@@ -54,7 +54,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Continuous Integration
-        uses: your-username/continuous-integration-action@v1
+        uses: lumston/sentinel-ci@main
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUNTIME_VERSION: '16'

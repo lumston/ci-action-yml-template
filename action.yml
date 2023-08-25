@@ -111,7 +111,7 @@ runs:
       uses: warchant/setup-sonar-scanner@v5
     - name: Run sonarqube
       run: sonar-scanner
-           -Dsonar.projectKey= ${{inputs.SONAR_PROJECT_NAME}}
+           -Dsonar.projectKey=${{inputs.SONAR_PROJECT_NAME}}
            -Dsonar.sourceEncoding=UTF-8
            -Dsonar.sources=src/
            -Dsonar.tests=src/
