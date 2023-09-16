@@ -154,15 +154,21 @@ runs:
       shell: bash
     - name: Check Bugs
       run: |
-        result=$(awk -v n1="$BUGS_VALUE" -v n2="$MIN_BUGS_VALUE" 'BEGIN {print (n1 > n2)}')
-        if [[ $result -eq 1 ]]; then
+        echo "BUGS_VALUE: ${{ env.BUGS_VALUE }}"
+        echo "MIN_BUGS_VALUE: ${{ inputs.MIN_BUGS_VALUE }}"
+        
+        result=$(awk -v n1="${{ env.BUGS_VALUE }}" -v n2="${{ env.MIN_BUGS_VALUE }}" 'BEGIN {print (n1 > n2)}')
+        echo "Result: $result"
+
+        if [[ "$result" -eq 1 ]]; then
           echo "There are some bugs to review."
-          echo "Number of bugs: " ${{ env.BUGS_VALUE }}
-          echo "Allowed bugs: " ${{ inputs.MIN_BUGS_VALUE }}
+          echo "Number of bugs: ${{ env.BUGS_VALUE }}"
+          echo "Allowed bugs: ${{ inputs.MIN_BUGS_VALUE }}"
           exit 1
         else
-          echo "Terrific! your bugs are ok"
+          echo "Terrific! Your bugs are okay."
         fi
+
       shell: bash
     - name: Check Hotspots
       run: |
