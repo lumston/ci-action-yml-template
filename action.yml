@@ -157,7 +157,7 @@ runs:
         echo "BUGS_VALUE: ${{ env.BUGS_VALUE }}"
         echo "MIN_BUGS_VALUE: ${{ inputs.MIN_BUGS_VALUE }}"
         
-        result=$(awk -v n1="${{ env.BUGS_VALUE }}" -v n2="${{ env.MIN_BUGS_VALUE }}" 'BEGIN {print (n1 > n2)}')
+        result=$(awk -v n1="${{ env.BUGS_VALUE }}" -v n2="${{ inputs.MIN_BUGS_VALUE }}" 'BEGIN {print (n1 > n2)}')
         echo "Result: $result"
 
         if [[ "$result" -eq 1 ]]; then
