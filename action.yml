@@ -172,7 +172,7 @@ runs:
       shell: bash
     - name: Check Hotspots
       run: |
-        result=$(awk -v n1="$HOTSPOTS_VALUE" -v n2="$MIN_HOTSPOTS_VALUE" 'BEGIN {print (n1 > n2)}')
+        result=$(awk -v n1="$HOTSPOTS_VALUE" -v n2="${{ inputs.MIN_HOTSPOTS_VALUE }}" 'BEGIN {print (n1 > n2)}')
         if [[ $result -eq 1 ]]; then
           echo "There are some hotspots to review."
           echo "Number of hotspots: " ${{ env.HOTSPOTS_VALUE }}
@@ -184,7 +184,7 @@ runs:
       shell: bash
     - name: Check Techical debt
       run: |
-        result=$(awk -v n1="$EFFORT_VALUE" -v n2="$MIN_EFFORT_VALUE" 'BEGIN {print (n1 > n2)}')
+        result=$(awk -v n1="$EFFORT_VALUE" -v n2="${{ inputs.MIN_EFFORT_VALUE }}" 'BEGIN {print (n1 > n2)}')
         if [[ $result -eq 1 ]]; then
           echo "The debt its greater than  maximum allowed."
           echo "Number of debt in minutes : " ${{ env.EFFORT_VALUE }}
