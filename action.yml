@@ -3,6 +3,10 @@ author: jsalazar
 description: Action for continuous integration
 inputs:
   #Runtime options
+  FORCE:
+    description: Npm install needs force flag
+    type: bool
+    default: false
   GITHUB_TOKEN:
     description: Github token
     required: true
@@ -79,14 +83,20 @@ runs:
       with:
         node-version: ${{ inputs.RUNTIME_VERSION }}
         cache: npm
-    - name: Install dependencies
-      run: npm ci
+    - name: Install dependencies and Test
+      run: |
+        install_and_test() {
+            local force_flag=""
+            if [[ "${1}" == "true" ]]; then
+              force_flag="--force"
+            fi
+            npm install ${force_flag}
+            npm run test:coverage
+          }
+
+          # Call the install_and_test function with the force flag
+          install_and_test "${{ inputs.force_flag }}"
       shell: bash
-    - name: Run tests
-      run: npm run test:coverage
-      shell: bash
-    # - name: Run lint
-    #   run: npm run lint
     - name: Collect coverage
       id: results
       uses: MishaKav/jest-coverage-comment@main
