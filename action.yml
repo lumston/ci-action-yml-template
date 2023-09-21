@@ -85,17 +85,12 @@ runs:
         cache: npm
     - name: Install dependencies and Test
       run: |
-        install_and_test() {
-            local force_flag=""
-            if [[ "${1}" == "true" ]]; then
-              force_flag="--force"
-            fi
-            npm install ${force_flag}
-            npm run test:coverage
-          }
-
-          # Call the install_and_test function with the force flag
-          install_and_test "${{ inputs.force_flag }}"
+        if [[ "${{ inputs.force_flag }}" == false ]]; then
+          npm run ci
+          else
+            npm install --legacy-peer-deps
+          fi
+          npm run test:coverage
       shell: bash
     - name: Collect coverage
       id: results
