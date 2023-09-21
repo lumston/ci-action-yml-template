@@ -85,7 +85,7 @@ runs:
         cache: npm
     - name: Install dependencies and Test
       run: |
-        if [[ "${{ inputs.force_flag }}" == false ]]; then
+        if [[ "${{ inputs.FORCE }}" == false ]]; then
           npm run ci
           else
             npm install --legacy-peer-deps
