@@ -86,7 +86,7 @@ runs:
     - name: Install dependencies and Test
       run: |
         if [[ "${{ inputs.FORCE }}" == false ]]; then
-          npm run ci
+          npm ci
           else
             npm install --legacy-peer-deps
           fi
