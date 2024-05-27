@@ -133,11 +133,11 @@ runs:
 
         # Add language specific options to the sonarqube command
 
-        if [ -n "${{ inputs.LANGUAGE }}" == "typescript" ]; then
+        if [[ "${{ inputs.LANGUAGE }}" == "typescript" ]]; then
           SONAR_CMD="$SONAR_CMD -Dsonar.typescript.lcov.reportPaths=${{ inputs.SONAR_LCOV_PATH }}"
         fi
 
-        if [ -n "${{ inputs.LANGUAGE }}" == "javascript" ]; then
+        if [[ "${{ inputs.LANGUAGE }}" == "javascript" ]]; then
           SONAR_CMD="$SONAR_CMD -Dsonar.javascript.lcov.reportPaths=${{ inputs.SONAR_LCOV_PATH }}"
         fi
 
