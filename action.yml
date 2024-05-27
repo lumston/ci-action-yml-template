@@ -23,6 +23,14 @@ inputs:
     type: choice
     options:
       - node
+  LANGUAGE:
+    description: Language of the application
+    default: typescript
+    type: choice
+    options:
+      - javascript
+      - typescript
+      - python
 
   #Testing options
   COVERAGE_PATH:
@@ -40,6 +48,10 @@ inputs:
   SONARQUBE_TOKEN:
     description: Sonarqube token
     required: true
+  SONAR_TEST_INCLUSIONS:
+    description: Sonarqube test inclusions
+    required: false
+    default: '**/*.spec.ts'
   SONAR_LCOV_PATH:
     description: Sonarqube coverage path
     required: false
@@ -115,16 +127,23 @@ runs:
     - name: Setup sonarqube
       uses: warchant/setup-sonar-scanner@v5
     - name: Run sonarqube
-      run: sonar-scanner
-           -Dsonar.projectKey=${{inputs.SONAR_PROJECT_NAME}}
-           -Dsonar.sourceEncoding=UTF-8
-           -Dsonar.sources=src/
-           -Dsonar.tests=src/
-           -Dsonar.test.inclusions=**/*.spec.ts
-           -Dsonar.typescript.lcov.reportPaths=${{ inputs.SONAR_LCOV_PATH }}
-           -Dsonar.projectName=${{inputs.SONAR_PROJECT_NAME}}
-           -Dsonar.host.url=${{ inputs.SONAR_HOST_URL }}
-           -Dsonar.login=${{ inputs.SONARQUBE_TOKEN }}
+      run: |
+        #!/bin/bash
+        SONAR_CMD="sonar-scanner -Dsonar.projectKey=${{inputs.SONAR_PROJECT_NAME}} -Dsonar.sourceEncoding=UTF-8 -Dsonar.sources=src/ -Dsonar.tests=src/ -Dsonar.test.inclusions=${{inputs.SONAR_TEST_INCLUSIONS}} -Dsonar.projectName=${{inputs.SONAR_PROJECT_NAME}} -Dsonar.host.url=${{ inputs.SONAR_HOST_URL }} -Dsonar.login=${{ inputs.SONARQUBE_TOKEN }}"
+
+        # Add language specific options to the sonarqube command
+
+        if [ -n "${{ inputs.LANGUAGE }}" == "typescript" ]; then
+          SONAR_CMD="$SONAR_CMD -Dsonar.typescript.lcov.reportPaths=${{ inputs.SONAR_LCOV_PATH }}"
+        fi
+
+        if [ -n "${{ inputs.LANGUAGE }}" == "javascript" ]; then
+          SONAR_CMD="$SONAR_CMD -Dsonar.javascript.lcov.reportPaths=${{ inputs.SONAR_LCOV_PATH }}"
+        fi
+
+        echo "Running SonarQube Scanner with command: $SONAR_CMD"
+        eval $SONAR_CMD
+
       shell: bash
     - name: Get sonarqube coverage history
       run: |
