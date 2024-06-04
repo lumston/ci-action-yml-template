@@ -93,7 +93,7 @@ runs:
     - uses: actions/checkout@v3
     - name: Is sentinel enabled
       if: ${{ inputs.ENABLE }}
-      run: echo "Sentinel enabled: ${{ inputs.ENABLE }}"
+      run: echo "Sentinel enabled "
       shell: bash
 
     - name: make some tests
