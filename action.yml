@@ -3,6 +3,10 @@ author: jsalazar
 description: Action for continuous integration
 inputs:
   #Runtime options
+  ENABLE: 
+    description: Enable sentinel
+    type: bool
+    default: true
   FORCE:
     description: Npm install needs force flag
     type: bool
@@ -87,15 +91,25 @@ runs:
   using: composite
   steps:
     - uses: actions/checkout@v3
+    - name: Is sentinel enabled
+      if: ${{ inputs.ENABLE }}
+      run: echo "Sentinel enabled: ${{ inputs.ENABLE }}"
+      shell: bash
+
     - name: make some tests
+      if: ${{ inputs.ENABLE }}
       run: echo ${{ inputs.RUNTIME }}
       shell: bash
+
     - name: Setup Node.js
+      if: ${{ inputs.ENABLE }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ inputs.RUNTIME_VERSION }}
         cache: npm
+
     - name: Install dependencies and Test
+      if: ${{ inputs.ENABLE }}
       run: |
         if [[ "${{ inputs.FORCE }}" == false ]]; then
           npm ci
@@ -104,7 +118,9 @@ runs:
           fi
           npm run test:coverage
       shell: bash
+
     - name: Collect coverage
+      if: ${{ inputs.ENABLE }}
       id: results
       uses: MishaKav/jest-coverage-comment@main
       with:
@@ -116,6 +132,7 @@ runs:
         create-new-comment: false
         hide-summary: false
     - name: Monitor coverage
+      if: ${{ inputs.ENABLE }}
       uses: slavcodev/coverage-monitor-action@v1
       with:
         github_token: ${{ inputs.GITHUB_TOKEN}}
@@ -125,8 +142,10 @@ runs:
         threshold_metric: "statements"
         comment_footer: false
     - name: Setup sonarqube
+      if: ${{ inputs.ENABLE }}
       uses: warchant/setup-sonar-scanner@v5
     - name: Run sonarqube
+      if: ${{ inputs.ENABLE }}
       run: |
         #!/bin/bash
         SONAR_CMD="sonar-scanner -Dsonar.projectKey=${{inputs.SONAR_PROJECT_NAME}} -Dsonar.sourceEncoding=UTF-8 -Dsonar.sources=src/ -Dsonar.tests=src/ -Dsonar.test.inclusions=${{inputs.SONAR_TEST_INCLUSIONS}} -Dsonar.projectName=${{inputs.SONAR_PROJECT_NAME}} -Dsonar.host.url=${{ inputs.SONAR_HOST_URL }} -Dsonar.login=${{ inputs.SONARQUBE_TOKEN }}"
@@ -146,6 +165,7 @@ runs:
 
       shell: bash
     - name: Get sonarqube coverage history
+      if: ${{ inputs.ENABLE }}
       run: |
           # execute curl command and get the output value using jq
           coverage_value=$(curl -G --data-urlencode "component=${{inputs.SONAR_PROJECT_NAME}}" --data-urlencode "metrics=coverage" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/measures/search_history | jq -r '.measures[0].history[-1].value')
@@ -167,6 +187,7 @@ runs:
             🚓Security Hotspots : ${{ env.HOTSPOTS_VALUE }}
             💻Debt: ${{ env.EFFORT_VALUE }}
     - name: Check Coverage
+      if: ${{ inputs.ENABLE }}
       run: | 
         result=$(awk -v n1=${{inputs.MIN_COVERAGE_VALUE}} -v n2="$COVERAGE_VALUE" 'BEGIN {print (n1 > n2)}')
         if [[ $result -eq 1 ]]; then
@@ -177,6 +198,7 @@ runs:
         fi
       shell: bash
     - name: Check Bugs
+      if: ${{ inputs.ENABLE }}
       run: |
         echo "BUGS_VALUE: ${{ env.BUGS_VALUE }}"
         echo "MIN_BUGS_VALUE: ${{ inputs.MIN_BUGS_VALUE }}"
@@ -195,6 +217,7 @@ runs:
 
       shell: bash
     - name: Check Hotspots
+      if: ${{ inputs.ENABLE }}
       run: |
         result=$(awk -v n1="$HOTSPOTS_VALUE" -v n2="${{ inputs.MIN_HOTSPOTS_VALUE }}" 'BEGIN {print (n1 > n2)}')
         if [[ $result -eq 1 ]]; then
@@ -207,6 +230,7 @@ runs:
         fi
       shell: bash
     - name: Check Techical debt
+      if: ${{ inputs.ENABLE }}
       run: |
         result=$(awk -v n1="$EFFORT_VALUE" -v n2="${{ inputs.MIN_EFFORT_VALUE }}" 'BEGIN {print (n1 > n2)}')
         if [[ $result -eq 1 ]]; then
