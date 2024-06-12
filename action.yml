@@ -20,7 +20,8 @@ inputs:
     type: choice
     options:
       - 16
-      - 18
+      - 18 
+      - 20
   RUNTIME:
     description: Runtime of the application
     default: node
@@ -164,10 +165,10 @@ runs:
       if: ${{ inputs.ENABLE == 'true' }}
       run: |
           # execute curl command and get the output value using jq
-          coverage_value=$(curl -G --data-urlencode "component=${{inputs.SONAR_PROJECT_NAME}}" --data-urlencode "metrics=coverage" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/measures/search_history | jq -r '.measures[0].history[-1].value')
-          bugs_vulnerability=$(curl -G --data-urlencode "componentKeys=${{inputs.SONAR_PROJECT_NAME}}" --data-urlencode "types=BUG,VULNERABILITY" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/issues/search | jq -r '.total')
-          hotspots=$(curl -G --data-urlencode "projectKey=${{inputs.SONAR_PROJECT_NAME}}" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/hotspots/search | jq -r '.paging.total')
-          effort_total=$(curl -G --data-urlencode "componentKeys=${{inputs.SONAR_PROJECT_NAME}}" --data-urlencode "types=CODE_SMELL" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/issues/search | jq -r '.effortTotal')
+          coverage_value=$(curl -G --data-urlencode "component=${{inputs.SONAR_PROJECT_NAME}}" --data-urlencode "metrics=coverage" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/measures/search_history | jq -r ".measures[0].history[-1].value")
+          bugs_vulnerability=$(curl -G --data-urlencode "componentKeys=${{inputs.SONAR_PROJECT_NAME}}" --data-urlencode "types=BUG,VULNERABILITY" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/issues/search | jq -r ".total")
+          hotspots=$(curl -G --data-urlencode "projectKey=${{inputs.SONAR_PROJECT_NAME}}" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/hotspots/search | jq -r ".paging.total")
+          effort_total=$(curl -G --data-urlencode "componentKeys=${{inputs.SONAR_PROJECT_NAME}}" --data-urlencode "types=CODE_SMELL" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ inputs.SONARQUBE_TOKEN }}: ${{ inputs.SONAR_HOST_URL }}/api/issues/search | jq -r ".effortTotal")
           # print the coverage value
           echo "COVERAGE_VALUE=$coverage_value" >> $GITHUB_ENV
           echo "BUGS_VALUE=$bugs_vulnerability" >> $GITHUB_ENV
