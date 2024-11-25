@@ -15,9 +15,10 @@ jobs:
       - uses: actions/checkout@v3
       - uses: lumston/sentinel-ci@main
         with:
-          RUNTIME_VERSION: 16
+          RUNTIME_VERSION: 18
+          JAVA_RUNTIME: '17'
           RUNTIME: node
           SONAR_PROJECT_NAME: ${{secrets.SONAR_PROJECT_NAME}}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONARQUBE_TOKEN : ${{ secrets.SONARQUBE_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_URL }}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
