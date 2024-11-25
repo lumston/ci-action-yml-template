@@ -148,7 +148,7 @@ runs:
     - name: Setup sonarqube
       if: ${{ inputs.ENABLE == 'true' }}
       uses: warchant/setup-sonar-scanner@v5
-       with:
+      with:
         java-version: ${{ input.JAVA_RUNTIME }}
     - name: Run sonarqube
       if: ${{ inputs.ENABLE == 'true' }}
