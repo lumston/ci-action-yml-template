@@ -3,6 +3,14 @@ author: jsalazar
 description: Action for continuous integration
 inputs:
   #Runtime options
+  JAVA_RUNTIME:
+    description: Java runtime for sonarqube executions
+    default: '11'
+    type: choice
+    options:
+      - '11'
+      - '17'
+    
   ENABLE: 
     description: Enable sentinel
     type: bool
