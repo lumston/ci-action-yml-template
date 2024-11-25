@@ -23,7 +23,7 @@ inputs:
     required: true
   RUNTIME_VERSION:
     description: Runtime version
-    default: node
+    default: 18
     type: choice
     options:
       - 16
@@ -149,7 +149,7 @@ runs:
       if: ${{ inputs.ENABLE == 'true' }}
       uses: warchant/setup-sonar-scanner@v5
       with:
-        java-version: ${{ input.JAVA_RUNTIME }}
+        java-version: ${{ inputs.JAVA_RUNTIME }}
     - name: Run sonarqube
       if: ${{ inputs.ENABLE == 'true' }}
       run: |
