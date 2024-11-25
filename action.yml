@@ -135,6 +135,7 @@ runs:
         hide-comment: false
         create-new-comment: false
         hide-summary: false
+        
     - name: Monitor coverage
       if: ${{ inputs.ENABLE == 'true' }}
       uses: slavcodev/coverage-monitor-action@v1
@@ -145,11 +146,14 @@ runs:
         threshold_warning: ${{ inputs.MIN_COVERAGE_VALUE }}
         threshold_metric: "statements"
         comment_footer: false
+    - name: Setuip java version
+      uses: actions/setup-java@v3
+      with: 
+        distribution: 'temurin'
+        java-version: ${{ inputs.JAVA_RUNTIME }}
     - name: Setup sonarqube
       if: ${{ inputs.ENABLE == 'true' }}
-      uses: warchant/setup-sonar-scanner@v5
-      with:
-        java-version: ${{ inputs.JAVA_RUNTIME }}
+      uses:  warchant/setup-sonar-scanner@v7
     - name: Run sonarqube
       if: ${{ inputs.ENABLE == 'true' }}
       run: |
